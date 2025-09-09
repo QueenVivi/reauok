@@ -40,3 +40,142 @@
 .read-the-docs {
   color: #888;
 }
+
+.app-root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.cover-wrapper {
+  cursor: pointer;
+  transition: transform 250ms ease;
+}
+.cover-wrapper:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+.cover {
+  max-width: 480px;
+}
+.cover svg {
+  width: 50%;
+  height: auto;
+}
+.cover-glow {
+  animation: cover-glow 2.4s ease-in-out infinite;
+}
+@keyframes cover-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 0px rgba(100, 108, 255, 0.0));
+  }
+  50% {
+    filter: drop-shadow(0 0 18px rgba(100, 108, 255, 0.65));
+  }
+}
+.cover-hint {
+  margin-top: 8px;
+  color: #888;
+}
+
+.cover-fan-stage {
+  position: relative;
+  width: 100%;
+  max-width: 750px;
+  height: 420px;
+}
+.cover-on-top {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;
+}
+.cover-on-top .cover svg {
+  width: 200px;
+}
+
+.deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto;
+  justify-items: center;
+}
+
+.card-item {
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 8px;
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.card-item svg {
+  width: 50%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.card-item:hover {
+  transform: translateY(+20px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+.card-item.revealed {
+  outline: 2px solid #646cff;
+}
+
+/* Fan layout */
+.fan {
+  position: relative;
+  width: 100%;
+  max-width: 750px;
+  height: 420px;
+  margin: 24px auto;
+}
+.fan-slot {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.fan-card {
+  position: relative;
+  transform-origin: bottom center;
+  transition: transform 250ms ease, box-shadow 200ms ease, filter 200ms ease;
+}
+.fan-card svg {
+  width: 200px; /* half sized visual */
+  height: auto;
+}
+.fan-slot:nth-child(n) .fan-card {
+  /* Distribute angles across cards using index */
+  transform: rotate(calc(-15deg + (30deg * var(--i) / (max(1, var(--n) - 1))))) translateY(0);
+  filter: brightness(0.92);
+}
+.fan-card:hover {
+  filter: brightness(1);
+  transform: translateY(-24px) scale(1.08) rotate(0deg);
+  z-index: 3;
+}
+
+
+/* Reveal view */
+.reveal-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.reveal-card svg {
+  width: 320px;
+  height: auto;
+}
+.stack-btn {
+  border-radius: 8px;
+  border: 1px solid #646cff;
+  padding: 0.6em 1.2em;
+  background: transparent;
+}
