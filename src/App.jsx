@@ -4,10 +4,11 @@ import SvgCard from './components/SvgCard'
 import questionsData from './questions.json'
 
 function App() {
-  const [phase, setPhase] = useState('cover') // 'cover' | 'fan' | 'reveal' | 'prompt-selection' | 'prompt-display'
+  const [phase, setPhase] = useState('cover') // 'cover' | 'fan' | 'reveal' | 'prompt-selection' | 'prompt-display' | 'both-cards'
   const [selectedId, setSelectedId] = useState(null)
   const [selectedPrompt, setSelectedPrompt] = useState(null)
   const [selectedQuestion, setSelectedQuestion] = useState(null)
+  const [originalQuestionId, setOriginalQuestionId] = useState(null)
 
   const cards = useMemo(() => {
     const ids = Array.from({ length: 10 }, (_, i) => `q${i + 1}`)
@@ -29,6 +30,7 @@ function App() {
   }
 
   const handleChoosePrompt = () => {
+    setOriginalQuestionId(selectedId) // Store the original question card ID
     setSelectedId(null)
     setSelectedPrompt(null)
     setPhase('prompt-selection')
@@ -48,7 +50,12 @@ function App() {
     setSelectedId(null)
     setSelectedPrompt(null)
     setSelectedQuestion(null)
+    setOriginalQuestionId(null)
     setPhase('cover')
+  }
+
+  const handleShowBothCards = () => {
+    setPhase('both-cards')
   }
 
   return (
@@ -132,7 +139,7 @@ function App() {
             <SvgCard
               src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
               hideText={false}
-              className="card-item prompt-display-card"
+              className="prompt-display-card"
               title={selectedPrompt}
             />
             {selectedQuestion && (
@@ -140,6 +147,40 @@ function App() {
                 <p className="question-text">{selectedQuestion}</p>
               </div>
             )}
+          </div>
+          <button className="back-btn" onClick={handleShowBothCards}>Show both cards</button>
+        </div>
+      )}
+
+      {phase === 'both-cards' && selectedPrompt && originalQuestionId && (
+        <div className="both-cards-view">
+          <h2>Your Cards</h2>
+          <div className="both-cards-container">
+            <div className="card-pair">
+              <div className="card-label">Question Card</div>
+              <SvgCard
+                src={`/${originalQuestionId}.svg`}
+                hideText={false}
+                className="card-item question-card"
+                title={originalQuestionId}
+              />
+            </div>
+            <div className="card-pair">
+              <div className="card-label">Prompt Card</div>
+              <div className="prompt-card-container">
+                <SvgCard
+                  src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
+                  hideText={false}
+                  className="prompt-display-card"
+                  title={selectedPrompt}
+                />
+                {selectedQuestion && (
+                  <div className="question-overlay">
+                    <p className="question-text">{selectedQuestion}</p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
           <button className="back-btn" onClick={handleBackToCover}>Back to cover</button>
         </div>
