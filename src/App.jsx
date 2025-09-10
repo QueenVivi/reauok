@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react'
 import './App.css'
 import SvgCard from './components/SvgCard'
+import questionsData from './questions.json'
 
 function App() {
   const [phase, setPhase] = useState('cover') // 'cover' | 'fan' | 'reveal' | 'prompt-selection' | 'prompt-display'
   const [selectedId, setSelectedId] = useState(null)
   const [selectedPrompt, setSelectedPrompt] = useState(null)
+  const [selectedQuestion, setSelectedQuestion] = useState(null)
 
   const cards = useMemo(() => {
     const ids = Array.from({ length: 10 }, (_, i) => `q${i + 1}`)
@@ -33,13 +35,19 @@ function App() {
   }
 
   const handlePromptSelection = (promptId) => {
+    // Get random question from the selected prompt's questions
+    const promptQuestions = questionsData[promptId].questions
+    const randomQuestion = promptQuestions[Math.floor(Math.random() * promptQuestions.length)]
+    
     setSelectedPrompt(promptId)
+    setSelectedQuestion(randomQuestion)
     setPhase('prompt-display')
   }
 
   const handleBackToCover = () => {
     setSelectedId(null)
     setSelectedPrompt(null)
+    setSelectedQuestion(null)
     setPhase('cover')
   }
 
@@ -120,12 +128,19 @@ function App() {
 
       {phase === 'prompt-display' && selectedPrompt && (
         <div className="prompt-display-view">
-          <SvgCard
-            src={`/${selectedPrompt}.svg`}
-            hideText={false}
-            className="card-item prompt-display-card"
-            title={selectedPrompt}
-          />
+          <div className="prompt-card-container">
+            <SvgCard
+              src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
+              hideText={false}
+              className="card-item prompt-display-card"
+              title={selectedPrompt}
+            />
+            {selectedQuestion && (
+              <div className="question-overlay">
+                <p className="question-text">{selectedQuestion}</p>
+              </div>
+            )}
+          </div>
           <button className="back-btn" onClick={handleBackToCover}>Back to cover</button>
         </div>
       )}
