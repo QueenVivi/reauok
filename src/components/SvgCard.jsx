@@ -44,29 +44,18 @@ export default function SvgCard({ src, hideText, className = '', onClick, title 
   }, [src, hideText])
 
   return (
-    <div
-      className={className}
-      onClick={onClick}
-      title={title}
-      tabIndex={0}
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'stretch',
-        justifyContent: 'stretch',
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-        }}
-        dangerouslySetInnerHTML={{ __html: svgHtml }}
-      />
-    </div>
+  <div
+    className={className}
+    onClick={onClick}
+    title={title}
+    tabIndex={0}
+    style={{
+      width: '100%',
+      height: '100%',
+      overflow: 'hidden',
+    }}
+    dangerouslySetInnerHTML={{ __html: svgHtml }}
+  />
   )
 }
 

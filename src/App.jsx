@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import './App.css'
 import SvgCard from './components/SvgCard'
+import './components/base.css'
 import InteractiveCard from './components/InteractiveCard'
 import questionsData from './questions.json'
 
@@ -84,15 +85,15 @@ function App() {
             <div className="cover-row">
               <div className="cover-wrapper disabled">
                 <InteractiveCard>
-                  <SvgCard src="/cover1.svg" hideText={false} className="cover-card" title="Future-focus" />
+                  <SvgCard src="/cover1.svg" hideText={false} className="cover-card" title="Future-focus" viewBox="0 0 810 1440" preserveAspectRatio="none" />
                 </InteractiveCard>
                 <div className="cover-hover-text">Future-focus</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
               <div className="cover-wrapper" onClick={handleCover2Click} role="button" tabIndex={0}>
-                <InteractiveCard>
+                {/* <InteractiveCard> */}
                   <SvgCard src="/cover2.svg" hideText={false} className="cover-card cover-glow" title="Light-hearted" />
-                </InteractiveCard>
+                {/* </InteractiveCard> */}
                 <div className="cover-hover-text">Light-hearted</div>
               </div>
               <div className="cover-wrapper disabled">
