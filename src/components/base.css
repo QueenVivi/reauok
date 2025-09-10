@@ -1,0 +1,300 @@
+/* BASE STYLES / VARIABLES */
+
+:root {
+  --card-aspect: 0.718;
+  --card-radius: 4.55% / 3.5%;
+  --card-edge: hsl(47, 100%, 78%);
+  --card-back: hsl(205, 100%, 25%);
+  --card-glow: hsl(175, 100%, 90%);
+  --sunpillar-1: hsl(2, 100%, 73%);
+  --sunpillar-2: hsl(53, 100%, 69%);
+  --sunpillar-3: hsl(93, 100%, 69%);
+  --sunpillar-4: hsl(176, 100%, 76%);
+  --sunpillar-5: hsl(228, 100%, 74%);
+  --sunpillar-6: hsl(283, 100%, 73%);
+  --sunpillar-clr-1: var(--sunpillar-1);
+  --sunpillar-clr-2: var(--sunpillar-2);
+  --sunpillar-clr-3: var(--sunpillar-3);
+  --sunpillar-clr-4: var(--sunpillar-4);
+  --sunpillar-clr-5: var(--sunpillar-5);
+  --sunpillar-clr-6: var(--sunpillar-6);
+}
+
+/* INTERACTIVE CARD ROOT */
+.card,
+.interactive-card {
+  -webkit-transform: translate3d(0px, 0px, 0.01px);
+  transform: translate3d(0px, 0px, 0.01px);
+  pointer-events: none;
+  z-index: calc(var(--card-scale) * 2);
+  will-change: transform, visibility, z-index;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  aspect-ratio: var(--card-aspect);
+  border-radius: var(--card-radius);
+}
+
+.card,
+.card * {
+  outline: 1px solid transparent;
+}
+
+.card:not(.interactive) .card__translater,
+.card:not(.interactive) .card__rotator,
+.card:not(.interactive) .card__shine,
+.card:not(.interactive) .card__glare {
+  transition: all 0.3s ease;
+}
+
+.card:not(.interactive):hover {
+  --pointer-x: 25% !important;
+  --pointer-y: 10% !important;
+  --card-scale: 1.1 !important;
+  --card-opacity: 1 !important;
+  --translate-x: 0px !important;
+  --translate-y: -10px !important;
+  --rotate-x: 7deg !important;
+  --rotate-y: -19deg !important;
+  --background-x: 44% !important;
+  --background-y: 36% !important;
+  --pointer-from-center: .9 !important;
+  --pointer-from-top: .11 !important;
+  --pointer-from-left: .25 !important;
+}
+
+
+.card.interacting {
+  z-index: calc(var(--card-scale) * 120);
+}
+
+.card.active .card__translater,
+.card.active .card__rotator {
+  touch-action: none;
+}
+
+/* INTERACTIVE CARD PERSPECTIVE */
+.interactive-card {
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --background-x: 50%;
+  --background-y: 50%;
+  perspective: 1000px;
+  display: inline-block;
+  transition: box-shadow 0.2s;
+}
+
+/* CARD LAYOUT */
+.card__translater,
+.card__rotator,
+.card__front {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.card__translater,
+.card__rotator {
+  display: grid;
+  perspective: 600px;
+  will-change: transform, box-shadow;
+  transform-origin: center;
+  -webkit-transform-origin: center;
+  transform-style: preserve-3d;
+}
+
+.card__translater {
+  width: auto;
+  position: relative;
+  -webkit-transform: translate3d(var(--translate-x), var(--translate-y), 0.1px) scale(var(--card-scale));
+  transform: translate3d(var(--translate-x), var(--translate-y), 0.1px) scale(var(--card-scale));
+}
+
+.card__rotator {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.15s cubic-bezier(.25,.8,.25,1);
+  transform: perspective(1000px) rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+  -webkit-transform: rotateY(var(--rotate-x)) rotateX(var(--rotate-y));
+  -webkit-transform-style: preserve-3d;
+  pointer-events: auto;
+}
+
+button.card__rotator {
+  border: none;
+  background: transparent;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.card__rotator,
+.card.active .card__rotator:focus {
+  transition: box-shadow 0.4s ease, opacity .33s ease-out;
+  box-shadow: 
+    0 0 3px -1px transparent, 
+    0 0 2px 1px transparent, 
+    0 0 5px 0px transparent,
+    0px 10px 20px -5px black, 
+    0 2px 15px -5px black,
+    0 0 20px 0px transparent;
+}
+
+.card.active .card__rotator,
+.card__rotator:focus {
+  box-shadow: 
+    0 0 3px -1px white, 
+    0 0 3px 1px var(--card-edge), 
+    0 0 12px 2px var(--card-glow), 
+    0px 10px 20px -5px black, 
+    0 0 40px -30px var(--card-glow), 
+    0 0 50px -20px var(--card-glow)
+}
+
+.card__rotator * {
+  width: 100%;
+  display: grid;
+  grid-area: 1/1;
+  aspect-ratio: var(--card-aspect);
+  border-radius: var(--card-radius);
+  image-rendering: optimizeQuality;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.card__rotator img {
+  height: auto;
+}
+.card__rotator img:not(.card__back) {
+  -webkit-transform: translate3d(0px, 0px, 0.01px);
+  transform: translate3d(0px, 0px, 0.01px);
+}
+
+.card__back {
+  background-color: var(--card-back);
+  -webkit-transform: rotateY(180deg) translateZ(1px);
+  transform: rotateY(180deg) translateZ(1px);
+  backface-visibility: visible;
+}
+
+.card__front,
+.card__front * {
+  backface-visibility: hidden;
+}
+
+.card__front {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  /* background: #fff; */ /* keep commented so SVG shows through */
+}
+
+/* SVG fills card */
+.card__front svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.loading .card__front {
+  opacity: 0;
+}
+
+.loading .card__back {
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+
+/* Shine & Glare Effects */
+.card__shine {
+  display: grid;
+  transform: translateZ(1px);
+  overflow: hidden;
+  z-index: 3;
+  background: transparent;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(.85) contrast(2.75) saturate(.65);
+  mix-blend-mode: color-dodge;
+  opacity: var(--card-opacity);
+}
+
+.card__shine:before,
+.card__shine:after {
+  --sunpillar-clr-1: var(--sunpillar-5);
+  --sunpillar-clr-2: var(--sunpillar-6);
+  --sunpillar-clr-3: var(--sunpillar-1);
+  --sunpillar-clr-4: var(--sunpillar-2);
+  --sunpillar-clr-5: var(--sunpillar-3);
+  --sunpillar-clr-6: var(--sunpillar-4);
+  grid-area: 1/1;
+  transform: translateZ(1px);
+  border-radius: var(--card-radius);
+}
+
+.card__shine:after {
+  --sunpillar-clr-1: var( --sunpillar-6 );
+  --sunpillar-clr-2: var( --sunpillar-1 ); 
+  --sunpillar-clr-3: var( --sunpillar-2 );
+  --sunpillar-clr-4: var( --sunpillar-3 );
+  --sunpillar-clr-5: var( --sunpillar-4 );
+  --sunpillar-clr-6: var( --sunpillar-5 );
+  transform: translateZ(1.2px);
+}
+
+.card__glare {
+  pointer-events: none;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--pointer-x) var(--pointer-y),
+    rgba(255,255,255,0.35) 0%,
+    transparent 70%
+  );
+  mix-blend-mode: lighten;
+  transition: background 0.2s;
+  z-index: 2;
+}
+
+/* Masking Effects */
+.card.masked .card__shine,
+.card.masked .card__shine:before,
+.card.masked .card__shine:after {
+  -webkit-mask-image: var(--mask);
+  mask-image: var(--mask);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center center;
+  mask-position: center center;
+}
+
+.card[data-rarity="rare holo"] .card__glare:after,
+.card[data-rarity="rare holo cosmos"] .card__glare:after,
+.card[data-rarity$="reverse holo"] .card__glare:after {
+  clip-path: var(--clip);
+}
+
+.card[data-rarity="rare holo"][data-subtypes^="stage"] .card__glare:after,
+.card[data-rarity="rare holo cosmos"][data-subtypes^="stage"] .card__glare:after,
+.card[data-rarity$="reverse holo"][data-subtypes^="stage"] .card__glare:after {
+  clip-path: var(--clip-stage);
+}
+
+.card[data-rarity="rare holo"][data-supertype="trainer"] .card__glare:after,
+.card[data-rarity="rare holo cosmos"][data-supertype="trainer"] .card__glare:after,
+.card[data-rarity$="reverse holo"][data-supertype="trainer"] .card__glare:after {
+  clip-path: var(--clip-trainer);
+}
+
+/* .card {
+  --card-opacity: 1;
+} */

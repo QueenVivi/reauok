@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // Utility to remove <script> and event handlers to avoid XSS, strip common white backgrounds,
 // and optionally hide text elements
@@ -12,54 +12,61 @@ function sanitizeAndOptionallyHideText(svgText, hideText) {
   sanitized = sanitized.replace(/\son[a-z]+\s*=\s*[^\s>]+/gi, '')
 
   // Remove common white backgrounds on the root <svg> or full-bleed rects
-  // 1) background or style background set to white on root svg
   sanitized = sanitized.replace(/(<svg[^>]*?)\sbackground\s*=\s*"?(?:#fff|#ffffff|white)"?/i, '$1')
   sanitized = sanitized.replace(/(<svg[^>]*?style=\s*"[^"]*?)background\s*:\s*(?:#fff|#ffffff|white)\s*;?/i, '$1')
   sanitized = sanitized.replace(/(<svg[^>]*?style=\s*'[^']*?)background\s*:\s*(?:#fff|#ffffff|white)\s*;?/i, '$1')
 
-  // 2) Remove a full-size white <rect> backgrounds (100% x 100%)
+  // Remove a full-size white <rect> backgrounds (100% x 100%)
   sanitized = sanitized.replace(/<rect[^>]*\bwidth\s*=\s*"?100%"?[^>]*\bheight\s*=\s*"?100%"?[^>]*\bfill\s*=\s*"?(?:#fff|#ffffff|white|rgb\(\s*255\s*,\s*255\s*,\s*255\s*\))"?[^>]*\/?>/gi, '')
-  // 3) Remove a white <rect> at origin with no stroke that often acts as background
+  // Remove a white <rect> at origin with no stroke that often acts as background
   sanitized = sanitized.replace(/<rect[^>]*\bx\s*=\s*"?0"?[^>]*\by\s*=\s*"?0"?[^>]*\bfill\s*=\s*"?(?:#fff|#ffffff|white|rgb\(\s*255\s*,\s*255\s*,\s*255\s*\))"?[^>]*\bstroke\s*=\s*"?none"?[^>]*\/?>/gi, '')
 
   if (hideText) {
-    // Hide <text> elements by adding style display:none
-    sanitized = sanitized.replace(/<text(\s|>)/gi, () => `<text style="display:none" `)
+    // Hide text elements
+    sanitized = sanitized.replace(/<text[\s\S]*?<\/text>/gi, '')
+    sanitized = sanitized.replace(/<tspan[\s\S]*?<\/tspan>/gi, '')
   }
   return sanitized
 }
 
-export default function SvgCard({ src, hideText, className, onClick, title }) {
-  const [raw, setRaw] = useState('')
-  const [error, setError] = useState('')
+export default function SvgCard({ src, hideText, className = '', onClick, title }) {
+  const [svgHtml, setSvgHtml] = useState('')
 
   useEffect(() => {
-    let isMounted = true
-    setError('')
-    setRaw('')
+    if (!src) {
+      setSvgHtml('')
+      return
+    }
     fetch(src)
-      .then(r => {
-        if (!r.ok) throw new Error(`Failed to load ${src}`)
-        return r.text()
-      })
-      .then(text => {
-        if (isMounted) setRaw(text)
-      })
-      .catch(e => {
-        if (isMounted) setError(e.message)
-      })
-    return () => { isMounted = false }
-  }, [src])
-
-  const html = useMemo(() => sanitizeAndOptionallyHideText(raw, hideText), [raw, hideText])
-
-  if (error) return <div className={className}>Failed to load: {title || src}</div>
+      .then(res => res.text())
+      .then(text => setSvgHtml(sanitizeAndOptionallyHideText(text, hideText)))
+      .catch(() => setSvgHtml(''))
+  }, [src, hideText])
 
   return (
-    <div className={className} onClick={onClick} role="button" tabIndex={0}>
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+    <div
+      className={className}
+      onClick={onClick}
+      title={title}
+      tabIndex={0}
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'stretch',
+        justifyContent: 'stretch',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+        }}
+        dangerouslySetInnerHTML={{ __html: svgHtml }}
+      />
     </div>
   )
 }
-
 
