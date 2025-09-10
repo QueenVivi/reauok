@@ -62,9 +62,43 @@ function App() {
     <div className="app-root">
       <h1>REA U OK</h1>
       {phase === 'cover' && (
-        <div className="cover-wrapper" onClick={handleCoverClick} role="button" tabIndex={0}>
-          <SvgCard src="/cover.svg" hideText={false} className="cover cover-glow" title="Cover" />
-          <div className="cover-hint">Click the cover to pick a card</div>
+        <div className="homepage-covers">
+          <h2>Mindful conversations</h2>
+          <div className="covers-grid">
+            <div className="cover-row">
+              <div className="cover-wrapper disabled">
+                <SvgCard src="/cover1.svg" hideText={false} className="cover-card" title="Light-hearted" />
+                <div className="cover-hover-text">Future-focus</div>
+                <div className="coming-soon-overlay">Coming Soon</div>
+              </div>
+              <div className="cover-wrapper" onClick={handleCoverClick} role="button" tabIndex={0}>
+                <SvgCard src="/cover2.svg" hideText={false} className="cover-card cover-glow" title="Future-Focus" />
+                <div className="cover-hover-text">Light-Hearted</div>
+              </div>
+              <div className="cover-wrapper disabled">
+                <SvgCard src="/cover3.svg" hideText={false} className="cover-card" title="Deep-Dives" />
+                <div className="cover-hover-text">Deep-Dives</div>
+                <div className="coming-soon-overlay">Coming Soon</div>
+              </div>
+            </div>
+            <div className="cover-row">
+              <div className="cover-wrapper disabled">
+                <SvgCard src="/cover4.svg" hideText={false} className="cover-card" title="Positive-Reflection" />
+                <div className="cover-hover-text">Positive-Reflection</div>
+                <div className="coming-soon-overlay">Coming Soon</div>
+              </div>
+              <div className="cover-wrapper disabled">
+                <SvgCard src="/cover5.svg" hideText={false} className="cover-card" title="Connection" />
+                <div className="cover-hover-text">Connection</div>
+                <div className="coming-soon-overlay">Coming Soon</div>
+              </div>
+              <div className="cover-wrapper disabled">
+                <SvgCard src="/cover6.svg" hideText={false} className="cover-card" title="Perspective Shift" />
+                <div className="cover-hover-text">Perspective-Shift</div>
+                <div className="coming-soon-overlay">Coming Soon</div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
