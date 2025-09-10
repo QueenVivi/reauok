@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 // Utility to remove <script> and event handlers to avoid XSS, strip common white backgrounds,
-// and optionally hide text elements
+// and optionally hide text elements. Also strips width/height attributes from <svg>.
 function sanitizeAndOptionallyHideText(svgText, hideText) {
   if (!svgText) return ''
   // Remove scripts
@@ -20,6 +20,9 @@ function sanitizeAndOptionallyHideText(svgText, hideText) {
   sanitized = sanitized.replace(/<rect[^>]*\bwidth\s*=\s*"?100%"?[^>]*\bheight\s*=\s*"?100%"?[^>]*\bfill\s*=\s*"?(?:#fff|#ffffff|white|rgb\(\s*255\s*,\s*255\s*,\s*255\s*\))"?[^>]*\/?>/gi, '')
   // Remove a white <rect> at origin with no stroke that often acts as background
   sanitized = sanitized.replace(/<rect[^>]*\bx\s*=\s*"?0"?[^>]*\by\s*=\s*"?0"?[^>]*\bfill\s*=\s*"?(?:#fff|#ffffff|white|rgb\(\s*255\s*,\s*255\s*,\s*255\s*\))"?[^>]*\bstroke\s*=\s*"?none"?[^>]*\/?>/gi, '')
+
+  // Remove width/height attributes from <svg> to allow CSS sizing
+  sanitized = sanitized.replace(/(<svg[^>]*?)\s(width|height)\s*=\s*['"][^'"]*['"]/gi, '$1')
 
   if (hideText) {
     // Hide text elements
@@ -44,18 +47,18 @@ export default function SvgCard({ src, hideText, className = '', onClick, title 
   }, [src, hideText])
 
   return (
-  <div
-    className={className}
-    onClick={onClick}
-    title={title}
-    tabIndex={0}
-    style={{
-      width: '100%',
-      height: '100%',
-      overflow: 'hidden',
-    }}
-    dangerouslySetInnerHTML={{ __html: svgHtml }}
-  />
+    <div
+      className={`svg-cropper ${className}`}
+      onClick={onClick}
+      title={title}
+      tabIndex={0}
+      style={{
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        position: 'relative',
+      }}
+      dangerouslySetInnerHTML={{ __html: svgHtml }}
+    />
   )
 }
-

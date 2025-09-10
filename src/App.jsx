@@ -85,19 +85,27 @@ function App() {
             <div className="cover-row">
               <div className="cover-wrapper disabled">
                 <InteractiveCard>
-                  <SvgCard src="/cover1.svg" hideText={false} className="cover-card" title="Future-focus" viewBox="0 0 810 1440" preserveAspectRatio="none" />
+                  <SvgCard
+                    src="/cover1.svg"
+                    hideText={false}
+                    className="cover-card"
+                    title="Future-focus"
+                    preserveAspectRatio="none"
+                  />
                 </InteractiveCard>
                 <div className="cover-hover-text">Future-focus</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
               <div className="cover-wrapper" onClick={handleCover2Click} role="button" tabIndex={0}>
-                {/* <InteractiveCard> */}
+                <InteractiveCard>
                   <SvgCard src="/cover2.svg" hideText={false} className="cover-card cover-glow" title="Light-hearted" />
-                {/* </InteractiveCard> */}
+                </InteractiveCard>
                 <div className="cover-hover-text">Light-hearted</div>
               </div>
               <div className="cover-wrapper disabled">
-                <SvgCard src="/cover3.svg" hideText={false} className="cover-card" title="Deep-Dives" />
+                <InteractiveCard>
+                  <SvgCard src="/cover3.svg" hideText={false} className="cover-card" title="Deep-Dives" />
+                </InteractiveCard>
                 <div className="cover-hover-text">Deep-Dives</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
@@ -153,12 +161,14 @@ function App() {
 
       {phase === 'reveal' && selectedId && (
         <div className="reveal-view">
-          <SvgCard
-            src={`/${selectedId}.svg`}
-            hideText={false}
-            className="card-item reveal-card"
-            title={selectedId}
-          />
+          <InteractiveCard>
+            <SvgCard
+              src={`/${selectedId}.svg`}
+              hideText={false}
+              className="card-item reveal-card"
+              title={selectedId}
+            />
+          </InteractiveCard> 
           <button className="stack-btn" onClick={handleChoosePrompt}>Choose a prompt card</button>
         </div>
       )}
@@ -173,13 +183,16 @@ function App() {
               { id: 'prompt3', text: 'Deep & Vulnerable' }
             ].map(({ id, text }) => (
               <div key={id} className="prompt-card-wrapper">
-                <SvgCard
-                  src={`/${id}.svg`}
-                  hideText={false}
-                  className="card-item prompt-card"
-                  title={id}
+                <InteractiveCard
                   onClick={() => handlePromptSelection(id)}
-                />
+                >
+                  <SvgCard
+                    src={`/${id}.svg`}
+                    hideText={false}
+                    className="card-item prompt-card"
+                    title={id}
+                  />
+                </InteractiveCard>
                 <div className="prompt-hover-text">{text}</div>
               </div>
             ))}
@@ -253,13 +266,16 @@ function App() {
                   '--i': index,
                 }}
               >
-                <SvgCard
-                  src={card.src}
-                  hideText={true}
-                  className="cover2-card"
-                  title={card.id}
+                <InteractiveCard
                   onClick={() => handleCover2CardClick(card.id, card.questionId)}
-                />
+                >
+                  <SvgCard
+                    src={card.src}
+                    hideText={true}
+                    className="cover2-card"
+                    title={card.id}
+                  />
+                </InteractiveCard>
               </div>
             ))}
           </div>
@@ -268,12 +284,14 @@ function App() {
 
       {phase === 'cover2-reveal' && selectedId && (
         <div className="cover2-reveal-view">
-          <SvgCard
-            src={`/${selectedId}.svg`}
-            hideText={false}
-            className="card-item reveal-card"
-            title={selectedId}
-          />
+          <InteractiveCard className="cover2-reveal-card">
+            <SvgCard
+              src={`/${selectedId}.svg`}
+              hideText={false}
+              className="card-item reveal-card"
+              title={selectedId}
+            />
+          </InteractiveCard>
           <button className="stack-btn" onClick={handleChoosePrompt}>Pick a prompt card</button>
         </div>
       )}
