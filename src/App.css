@@ -299,7 +299,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 80px;
+  gap: 24px;
 }
 .prompt-selection-view h2 {
   color: #646cff;
@@ -439,4 +439,66 @@
 .both-cards-view .prompt-display-card svg {
   width: 320px;
   height: auto;
+}
+
+/* Cover2 fan view */
+.cover2-fan-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  min-height: 100vh;
+  justify-content: flex-start;
+  padding: 40px 0 20px 0;
+}
+.cover2-fan-view h2 {
+  color: #646cff;
+  margin: 0;
+  font-size: 1.8rem;
+}
+.cover2-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto auto;
+  gap: 24px;
+  max-width: 800px;
+  width: 100%;
+}
+.cover2-slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cover2-card {
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 8px;
+  border: 2px solid rgba(168, 85, 247, 0.3);
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  max-width: 144px;
+}
+.cover2-card svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.cover2-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+/* Cover2 reveal view */
+.cover2-reveal-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-height: 100vh;
+  justify-content: flex-start;
+  padding: 40px 0 20px 0;
+}
+.cover2-reveal-view .stack-btn {
+  margin-top: 20px;
 }

@@ -4,7 +4,7 @@ import SvgCard from './components/SvgCard'
 import questionsData from './questions.json'
 
 function App() {
-  const [phase, setPhase] = useState('cover') // 'cover' | 'fan' | 'reveal' | 'prompt-selection' | 'prompt-display' | 'both-cards'
+  const [phase, setPhase] = useState('cover') // 'cover' | 'fan' | 'reveal' | 'prompt-selection' | 'prompt-display' | 'both-cards' | 'cover2-fan' | 'cover2-reveal'
   const [selectedId, setSelectedId] = useState(null)
   const [selectedPrompt, setSelectedPrompt] = useState(null)
   const [selectedQuestion, setSelectedQuestion] = useState(null)
@@ -19,9 +19,24 @@ function App() {
       .map(({ id }) => ({ id, src: `/${id}.svg` }))
   }, [])
 
-  const handleCoverClick = () => {
+  const cover2CardsData = useMemo(() => {
+    // Create 10 copies of cover2.svg
+    return Array.from({ length: 10 }, (_, i) => ({
+      id: `cover2-${i + 1}`,
+      src: '/cover2.svg',
+      questionId: `q${i + 1}` // Maps to q1.svg, q2.svg, etc.
+    }))
+  }, [])
+
+
+  const handleCover2Click = () => {
     setSelectedId(null)
-    setPhase('fan')
+    setPhase('cover2-fan')
+  }
+
+  const handleCover2CardClick = (cardId, questionId) => {
+    setSelectedId(questionId)
+    setPhase('cover2-reveal')
   }
 
   const handleFanCardClick = (id) => {
@@ -71,9 +86,9 @@ function App() {
                 <div className="cover-hover-text">Future-focus</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
-              <div className="cover-wrapper" onClick={handleCoverClick} role="button" tabIndex={0}>
+              <div className="cover-wrapper" onClick={handleCover2Click} role="button" tabIndex={0}>
                 <SvgCard src="/cover2.svg" hideText={false} className="cover-card cover-glow" title="Future-Focus" />
-                <div className="cover-hover-text">Light-Hearted</div>
+                <div className="cover-hover-text">Future-Focus</div>
               </div>
               <div className="cover-wrapper disabled">
                 <SvgCard src="/cover3.svg" hideText={false} className="cover-card" title="Deep-Dives" />
@@ -217,6 +232,43 @@ function App() {
             </div>
           </div>
           <button className="back-btn" onClick={handleBackToCover}>Back to cover</button>
+        </div>
+      )}
+
+      {phase === 'cover2-fan' && (
+        <div className="cover2-fan-view">
+          <h2>Pick a card</h2>
+          <div className="cover2-grid">
+            {cover2CardsData.map((card, index) => (
+              <div
+                key={card.id}
+                className="cover2-slot"
+                style={{
+                  '--i': index,
+                }}
+              >
+                <SvgCard
+                  src={card.src}
+                  hideText={true}
+                  className="cover2-card"
+                  title={card.id}
+                  onClick={() => handleCover2CardClick(card.id, card.questionId)}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {phase === 'cover2-reveal' && selectedId && (
+        <div className="cover2-reveal-view">
+          <SvgCard
+            src={`/${selectedId}.svg`}
+            hideText={false}
+            className="card-item reveal-card"
+            title={selectedId}
+          />
+          <button className="stack-btn" onClick={handleChoosePrompt}>Pick a prompt card</button>
         </div>
       )}
     </div>
