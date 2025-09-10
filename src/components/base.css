@@ -20,23 +20,24 @@
   --sunpillar-clr-6: var(--sunpillar-6);
 }
 
-/* DEFAULT CARD SIZE (adjust as needed) */
+/* DEFAULT CARD SIZE (responsive, can override per phase) */
 .card,
 .interactive-card {
-  width: 320px;
-  height: auto;
-  aspect-ratio: 810 / 1440;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: var(--card-aspect);
   border-radius: var(--card-radius);
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
   -webkit-transform: translate3d(0px, 0px, 0.01px);
   transform: translate3d(0px, 0px, 0.01px);
-  pointer-events: none;
+  pointer-events: auto;
   z-index: 1;
   will-change: transform, visibility, z-index;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
+  background: none;
 }
 
 .card,
@@ -86,7 +87,6 @@
   --background-y: 50%;
   perspective: 1000px;
   display: inline-block;
-  /* transition: box-shadow 0.2s; */
 }
 
 /* CARD LAYOUT: Ensure all layers fill parent */
@@ -217,18 +217,19 @@ button.card__rotator {
   padding: 0;
 }
 
-/* SVG fills card */
-.card__front svg {
+/* SVG fills card and crops transparent space. Adjust height/translateY for your SVGs. */
+.card__front svg,
+.svg-cropper svg {
   width: 100%;
-  height: 140%;
+  height: 100%;
   display: block;
   border-radius: inherit;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  aspect-ratio: 0.56;
-  object-fit: fill;
-  transform: translateY(-20%);
+  /* aspect-ratio: 0.56; */
+  object-fit: contain;
+  /* transform: translateY(-6%); */
 }
 
 /* Shine & Glare Effects */
@@ -313,18 +314,9 @@ button.card__rotator {
   transform: rotateY(0deg);
 }
 
-.svg-cropper svg {
-  width: 100% !important;
-  height: 140% !important;
-  display: block;
-  object-fit: cover;
-  aspect-ratio: 0.56;
-  transform: translateY(-20%);
-  margin: 0;
-  padding: 0;
-}
-
-.cover2-reveal-card {
+/* Responsive layouts for special phases */
+.cover2-reveal-card,
+.prompt-display-card-wrapper {
   width: min(90vw, 350px);
   max-width: 100%;
   margin: 0 auto;
@@ -361,12 +353,28 @@ button.card__rotator {
   display: block;
 }
 
-.prompt-display-card-wrapper {
-  width: min(90vw, 350px);
-  max-width: 100%;
-  margin: 0 auto;
+/* Overlay for prompt/question text */
+.question-overlay {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: rgba(255,255,255,0.95);
+  color: #222;
+  padding: 1.2rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  z-index: 10;
+  min-width: 200px;
+  max-width: 90vw;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.prompt-card-container {
+  position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
 

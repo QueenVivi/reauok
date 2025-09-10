@@ -98,7 +98,7 @@ function App() {
               </div>
               <div className="cover-wrapper" onClick={handleCover2Click} role="button" tabIndex={0}>
                 <InteractiveCard>
-                  <SvgCard src="/cover2.svg" hideText={false} className="cover-card cover-glow" title="Light-hearted" />
+                  <SvgCard src="/cover2.svg" hideText={false} className="cover-card" title="Light-hearted" />
                 </InteractiveCard>
                 <div className="cover-hover-text">Light-hearted</div>
               </div>
