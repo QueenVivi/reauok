@@ -75,7 +75,7 @@ function App() {
 
   return (
     <div className="app-root">
-      <h1>REA U OK</h1>
+      <h1>REA U OK?</h1>
       {phase === 'cover' && (
         <div className="homepage-covers">
           <h2>Mindful conversations</h2>
