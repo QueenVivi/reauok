@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 import './App.css'
 import SvgCard from './components/SvgCard'
+import './components/base.css'
+import InteractiveCard from './components/InteractiveCard'
 import questionsData from './questions.json'
 
 function App() {
@@ -75,40 +77,58 @@ function App() {
 
   return (
     <div className="app-root">
-      <h1>REA U OK</h1>
+      <h1>REA U OK?</h1>
       {phase === 'cover' && (
         <div className="homepage-covers">
           <h2>Mindful conversations</h2>
           <div className="covers-grid">
             <div className="cover-row">
               <div className="cover-wrapper disabled">
-                <SvgCard src="/cover1.svg" hideText={false} className="cover-card" title="Light-hearted" />
+                <InteractiveCard>
+                  <SvgCard
+                    src="/cover1.svg"
+                    hideText={false}
+                    className="cover-card"
+                    title="Future-focus"
+                    preserveAspectRatio="none"
+                  />
+                </InteractiveCard>
                 <div className="cover-hover-text">Future-focus</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
               <div className="cover-wrapper" onClick={handleCover2Click} role="button" tabIndex={0}>
-                <SvgCard src="/cover2.svg" hideText={false} className="cover-card cover-glow" title="Future-Focus" />
-                <div className="cover-hover-text">Future-Focus</div>
+                <InteractiveCard>
+                  <SvgCard src="/cover2.svg" hideText={false} className="cover-card" title="Light-hearted" />
+                </InteractiveCard>
+                <div className="cover-hover-text">Light-hearted</div>
               </div>
               <div className="cover-wrapper disabled">
-                <SvgCard src="/cover3.svg" hideText={false} className="cover-card" title="Deep-Dives" />
+                <InteractiveCard>
+                  <SvgCard src="/cover3.svg" hideText={false} className="cover-card" title="Deep-Dives" />
+                </InteractiveCard>
                 <div className="cover-hover-text">Deep-Dives</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
             </div>
             <div className="cover-row">
               <div className="cover-wrapper disabled">
-                <SvgCard src="/cover4.svg" hideText={false} className="cover-card" title="Positive-Reflection" />
+                <InteractiveCard>
+                  <SvgCard src="/cover4.svg" hideText={false} className="cover-card" title="Positive-Reflection" />
+                </InteractiveCard>
                 <div className="cover-hover-text">Positive-Reflection</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
               <div className="cover-wrapper disabled">
-                <SvgCard src="/cover5.svg" hideText={false} className="cover-card" title="Connection" />
+                <InteractiveCard>
+                  <SvgCard src="/cover5.svg" hideText={false} className="cover-card" title="Connection" />
+                </InteractiveCard>
                 <div className="cover-hover-text">Connection</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
               <div className="cover-wrapper disabled">
-                <SvgCard src="/cover6.svg" hideText={false} className="cover-card" title="Perspective Shift" />
+                <InteractiveCard>
+                  <SvgCard src="/cover6.svg" hideText={false} className="cover-card" title="Perspective Shift" />
+                </InteractiveCard>
                 <div className="cover-hover-text">Perspective-Shift</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
@@ -147,12 +167,14 @@ function App() {
 
       {phase === 'reveal' && selectedId && (
         <div className="reveal-view">
-          <SvgCard
-            src={`/${selectedId}.svg`}
-            hideText={false}
-            className="card-item reveal-card"
-            title={selectedId}
-          />
+          <InteractiveCard>
+            <SvgCard
+              src={`/${selectedId}.svg`}
+              hideText={false}
+              className="card-item reveal-card"
+              title={selectedId}
+            />
+          </InteractiveCard> 
           <button className="stack-btn" onClick={handleChoosePrompt}>Choose a prompt card</button>
         </div>
       )}
@@ -167,13 +189,16 @@ function App() {
               { id: 'prompt3', text: 'Deep & Vulnerable' }
             ].map(({ id, text }) => (
               <div key={id} className="prompt-card-wrapper">
-                <SvgCard
-                  src={`/${id}.svg`}
-                  hideText={false}
-                  className="card-item prompt-card"
-                  title={id}
+                <InteractiveCard
                   onClick={() => handlePromptSelection(id)}
-                />
+                >
+                  <SvgCard
+                    src={`/${id}.svg`}
+                    hideText={false}
+                    className="card-item prompt-card"
+                    title={id}
+                  />
+                </InteractiveCard>
                 <div className="prompt-hover-text">{text}</div>
               </div>
             ))}
@@ -185,17 +210,19 @@ function App() {
       {phase === 'prompt-display' && selectedPrompt && (
         <div className="prompt-display-view">
           <div className="prompt-card-container">
-            <SvgCard
-              src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
-              hideText={false}
-              className="prompt-display-card"
-              title={selectedPrompt}
-            />
+            <InteractiveCard>
+              <SvgCard
+                src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
+                hideText={false}
+                className="prompt-display-card"
+                title={selectedPrompt}
+              />
             {selectedQuestion && (
               <div className="question-overlay">
                 <p className="question-text">{selectedQuestion}</p>
               </div>
             )}
+            </InteractiveCard>
           </div>
           <button className="back-btn" onClick={handleShowBothCards}>Show both cards</button>
         </div>
@@ -207,29 +234,34 @@ function App() {
           <div className="both-cards-container">
             <div className="card-pair">
               <div className="card-label">Question Card</div>
-              <SvgCard
-                src={`/${originalQuestionId}.svg`}
-                hideText={false}
-                className="card-item question-card"
-                title={originalQuestionId}
-              />
+              <InteractiveCard>
+                <SvgCard
+                  src={`/${originalQuestionId}.svg`}
+                  hideText={false}
+                  className="card-item question-card"
+                  title={originalQuestionId}
+                />
+              </InteractiveCard>
             </div>
             <div className="card-pair">
               <div className="card-label">Prompt Card</div>
               <div className="prompt-card-container">
-                <SvgCard
-                  src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
-                  hideText={false}
-                  className="prompt-display-card"
-                  title={selectedPrompt}
-                />
+                <InteractiveCard>
+                  <SvgCard
+                    src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
+                    hideText={false}
+                    className="prompt-display-card"
+                    title={selectedPrompt}
+                  />
                 {selectedQuestion && (
                   <div className="question-overlay">
                     <p className="question-text">{selectedQuestion}</p>
                   </div>
                 )}
+               </InteractiveCard>
               </div>
             </div>
+
           </div>
           <button className="back-btn" onClick={handleBackToCover}>Back to cover</button>
         </div>
@@ -247,13 +279,16 @@ function App() {
                   '--i': index,
                 }}
               >
-                <SvgCard
-                  src={card.src}
-                  hideText={true}
-                  className="cover2-card"
-                  title={card.id}
+                <InteractiveCard
                   onClick={() => handleCover2CardClick(card.id, card.questionId)}
-                />
+                >
+                  <SvgCard
+                    src={card.src}
+                    hideText={true}
+                    className="cover2-card"
+                    title={card.id}
+                  />
+                </InteractiveCard>
               </div>
             ))}
           </div>
@@ -262,12 +297,14 @@ function App() {
 
       {phase === 'cover2-reveal' && selectedId && (
         <div className="cover2-reveal-view">
-          <SvgCard
-            src={`/${selectedId}.svg`}
-            hideText={false}
-            className="card-item reveal-card"
-            title={selectedId}
-          />
+          <InteractiveCard className="cover2-reveal-card">
+            <SvgCard
+              src={`/${selectedId}.svg`}
+              hideText={false}
+              className="card-item reveal-card"
+              title={selectedId}
+            />
+          </InteractiveCard>
           <button className="stack-btn" onClick={handleChoosePrompt}>Pick a prompt card</button>
         </div>
       )}
