@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import './base.css'
 
-export default function InteractiveCard({ children, className = '', ...props }) {
+export default function InteractiveCard({ children, overlay, className = '', ...props }) {
   const ref = useRef(null)
 
   const handlePointerMove = (e) => {
@@ -42,9 +42,11 @@ export default function InteractiveCard({ children, className = '', ...props }) 
           <div className="card__front">
             {children}
             <div className="card__glare" />
+            {overlay}
           </div>
         </div>
       </div>
     </div>
   )
 }
+

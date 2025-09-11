@@ -207,6 +207,9 @@ button.card__rotator {
 .card__front {
   position: relative;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   border-radius: var(--card-radius);
   overflow: hidden;
@@ -217,7 +220,7 @@ button.card__rotator {
   padding: 0;
 }
 
-/* SVG fills card and crops transparent space. Adjust height/translateY for your SVGs. */
+/* SVG fills card and crops transparent space */
 .card__front svg,
 .svg-cropper svg {
   width: 100%;
@@ -356,19 +359,29 @@ button.card__rotator {
 /* Overlay for prompt/question text */
 .question-overlay {
   position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background: rgba(255,255,255,0.95);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;      /* vertical center */
+  justify-content: center;  /* horizontal center */
+  background: rgba(255,255,255,0.01);
   color: #222;
-  padding: 1.2rem 1.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 1rem;
   z-index: 10;
-  min-width: 200px;
-  max-width: 90vw;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 5rem;
+  overflow: hidden;
+}
+
+.question-text {
+  max-width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  word-break: break-word;
+  font-size: 1rem;
+  line-height: 1.3;
+  margin: 0;
+  padding: 0.2em 0.5em;
 }
 
 .prompt-card-container {
@@ -377,4 +390,32 @@ button.card__rotator {
   flex-direction: column;
   align-items: center;
 }
+
+.both-cards-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.card-pair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(90vw, 350px);
+  max-width: 100%;
+}
+
+.card-item.question-card,
+.prompt-display-card {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 0.718;
+  min-width: 180px;
+  height: auto;
+  display: block;
+}
+
 

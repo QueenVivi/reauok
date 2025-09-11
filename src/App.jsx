@@ -112,17 +112,23 @@ function App() {
             </div>
             <div className="cover-row">
               <div className="cover-wrapper disabled">
-                <SvgCard src="/cover4.svg" hideText={false} className="cover-card" title="Positive-Reflection" />
+                <InteractiveCard>
+                  <SvgCard src="/cover4.svg" hideText={false} className="cover-card" title="Positive-Reflection" />
+                </InteractiveCard>
                 <div className="cover-hover-text">Positive-Reflection</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
               <div className="cover-wrapper disabled">
-                <SvgCard src="/cover5.svg" hideText={false} className="cover-card" title="Connection" />
+                <InteractiveCard>
+                  <SvgCard src="/cover5.svg" hideText={false} className="cover-card" title="Connection" />
+                </InteractiveCard>
                 <div className="cover-hover-text">Connection</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
               <div className="cover-wrapper disabled">
-                <SvgCard src="/cover6.svg" hideText={false} className="cover-card" title="Perspective Shift" />
+                <InteractiveCard>
+                  <SvgCard src="/cover6.svg" hideText={false} className="cover-card" title="Perspective Shift" />
+                </InteractiveCard>
                 <div className="cover-hover-text">Perspective-Shift</div>
                 <div className="coming-soon-overlay">Coming Soon</div>
               </div>
@@ -204,17 +210,19 @@ function App() {
       {phase === 'prompt-display' && selectedPrompt && (
         <div className="prompt-display-view">
           <div className="prompt-card-container">
-            <SvgCard
-              src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
-              hideText={false}
-              className="prompt-display-card"
-              title={selectedPrompt}
-            />
+            <InteractiveCard>
+              <SvgCard
+                src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
+                hideText={false}
+                className="prompt-display-card"
+                title={selectedPrompt}
+              />
             {selectedQuestion && (
               <div className="question-overlay">
                 <p className="question-text">{selectedQuestion}</p>
               </div>
             )}
+            </InteractiveCard>
           </div>
           <button className="back-btn" onClick={handleShowBothCards}>Show both cards</button>
         </div>
@@ -226,29 +234,34 @@ function App() {
           <div className="both-cards-container">
             <div className="card-pair">
               <div className="card-label">Question Card</div>
-              <SvgCard
-                src={`/${originalQuestionId}.svg`}
-                hideText={false}
-                className="card-item question-card"
-                title={originalQuestionId}
-              />
+              <InteractiveCard>
+                <SvgCard
+                  src={`/${originalQuestionId}.svg`}
+                  hideText={false}
+                  className="card-item question-card"
+                  title={originalQuestionId}
+                />
+              </InteractiveCard>
             </div>
             <div className="card-pair">
               <div className="card-label">Prompt Card</div>
               <div className="prompt-card-container">
-                <SvgCard
-                  src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
-                  hideText={false}
-                  className="prompt-display-card"
-                  title={selectedPrompt}
-                />
+                <InteractiveCard>
+                  <SvgCard
+                    src={`/p-${selectedPrompt.replace('prompt', '')}.svg`}
+                    hideText={false}
+                    className="prompt-display-card"
+                    title={selectedPrompt}
+                  />
                 {selectedQuestion && (
                   <div className="question-overlay">
                     <p className="question-text">{selectedQuestion}</p>
                   </div>
                 )}
+               </InteractiveCard>
               </div>
             </div>
+
           </div>
           <button className="back-btn" onClick={handleBackToCover}>Back to cover</button>
         </div>
